@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Dishes List</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list id="open-modal">
+    <!-- <ion-item *ngFor="let dish of dishes" [routerLink]="['/dish', dish.id]"></ion-item> -->
+    <ion-item *ngFor="let dish of dishes" (click)="SelectDish(dish)">
+      <ion-thumbnail slot="start">
+        <img [src]="dish.imageUrl" />
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{ dish.name }}</h2>
+        <p>{{ dish.description }}</p>
+        <p>Price: ${{ dish.price }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!--   <ion-button id="open-modal" expand="block">Open</ion-button> -->
+  <!--   <p>{{ message }}</p> -->
+  <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cancel()">Cancel</ion-button>
+          </ion-buttons>
+          <ion-title>{{selectedDish.name}}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="confirm(selectedDish)" [strong]="true"
+              >Confirm</ion-button
+            >
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <p>{{ selectedDish?.description }}</p>
+        <p>Price: {{ selectedDish?.price | currency:'USD':'symbol' }}</p>
+      </ion-content>
+      <ion-footer>
+        <ion-button expand="block" (click)="AddDishToCart(selectedDish)"
+          >Agregar</ion-button
+        >
+      </ion-footer>
+    </ng-template>
+  </ion-modal>
+</ion-content>
+<ion-footer>
+  <ion-button expand="block" (click)="Order()">Ordenar</ion-button>
+</ion-footer>
